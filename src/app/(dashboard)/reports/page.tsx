@@ -285,7 +285,7 @@ export default function ReportsPage() {
                                         outerRadius={80}
                                         paddingAngle={5}
                                         dataKey="value"
-                                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                        label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
                                     >
                                         {statusData.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={entry.color} />
@@ -337,9 +337,9 @@ export default function ReportsPage() {
                                     className="flex items-center gap-4 p-3 rounded-lg bg-gray-50 dark:bg-gray-800"
                                 >
                                     <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white ${index === 0 ? 'bg-yellow-500' :
-                                            index === 1 ? 'bg-gray-400' :
-                                                index === 2 ? 'bg-amber-600' :
-                                                    'bg-gray-300'
+                                        index === 1 ? 'bg-gray-400' :
+                                            index === 2 ? 'bg-amber-600' :
+                                                'bg-gray-300'
                                         }`}>
                                         {index + 1}
                                     </div>
