@@ -1,0 +1,1313 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\playwright.config.ts",
+    "rootDir": "C:/Users/taini/.gemini/antigravity/To Do/work-assignment-app/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/taini/.gemini/antigravity/To Do/work-assignment-app/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "setup",
+        "name": "setup",
+        "testDir": "C:/Users/taini/.gemini/antigravity/To Do/work-assignment-app/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/taini/.gemini/antigravity/To Do/work-assignment-app/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/taini/.gemini/antigravity/To Do/work-assignment-app/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/taini/.gemini/antigravity/To Do/work-assignment-app/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "C:/Users/taini/.gemini/antigravity/To Do/work-assignment-app/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "auth.setup.ts",
+      "file": "auth.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "authenticate",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup",
+              "projectName": "setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4795,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "Ô£à Authentication state saved!\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-01-13T01:39:12.022Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "17e3fe6f4d9d8bd79c6b-60f085b113a677673906",
+          "file": "auth.setup.ts",
+          "line": 6,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "workflow.spec.ts",
+      "file": "workflow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Authentication Flow",
+          "file": "workflow.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display login page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3759,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:23.125Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-19364cf83d6dd2fe7432",
+              "file": "workflow.spec.ts",
+              "line": 7,
+              "column": 9
+            },
+            {
+              "title": "should show error for invalid credentials",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7587,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:23.229Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-c5cfd0af1c183782b590",
+              "file": "workflow.spec.ts",
+              "line": 14,
+              "column": 9
+            },
+            {
+              "title": "should navigate to register page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 4058,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:23.274Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-80c63c49ac9e9e0df628",
+              "file": "workflow.spec.ts",
+              "line": 24,
+              "column": 9
+            },
+            {
+              "title": "should navigate to forgot password page",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3957,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:23.265Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-36ddc78a5438cb1d76f9",
+              "file": "workflow.spec.ts",
+              "line": 30,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Task Management Workflow",
+          "file": "workflow.spec.ts",
+          "line": 37,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display tasks list",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 15178,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected substring: \u001b[32m\"Tasks\"\u001b[39m\nReceived string:    \u001b[31m\"Welcome back\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    13 ├ù locator resolved to <h1 class=\"text-2xl font-bold text-gray-900 dark:text-gray-100\">Welcome back</h1>\u001b[22m\n\u001b[2m       - unexpected value \"Welcome back\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected substring: \u001b[32m\"Tasks\"\u001b[39m\nReceived string:    \u001b[31m\"Welcome back\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    13 ├ù locator resolved to <h1 class=\"text-2xl font-bold text-gray-900 dark:text-gray-100\">Welcome back</h1>\u001b[22m\n\u001b[2m       - unexpected value \"Welcome back\"\u001b[22m\n\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:45:42",
+                        "location": {
+                          "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                          "column": 42,
+                          "line": 45
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m\n \u001b[90m 44 |\u001b[39m     test(\u001b[32m'should display tasks list'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m         \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Tasks'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 47 |\u001b[39m\n \u001b[90m 48 |\u001b[39m     test(\u001b[32m'should open create task modal (manager only)'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                            "column": 42,
+                            "line": 45
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected substring: \u001b[32m\"Tasks\"\u001b[39m\nReceived string:    \u001b[31m\"Welcome back\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    13 ├ù locator resolved to <h1 class=\"text-2xl font-bold text-gray-900 dark:text-gray-100\">Welcome back</h1>\u001b[22m\n\u001b[2m       - unexpected value \"Welcome back\"\u001b[22m\n\n\n  43 |\n  44 |     test('should display tasks list', async ({ page }) => {\n> 45 |         await expect(page.locator('h1')).toContainText('Tasks');\n     |                                          ^\n  46 |     });\n  47 |\n  48 |     test('should open create task modal (manager only)', async ({ page }) => {\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:45:42"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:27.410Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Task-Management-Workflow-should-display-tasks-list-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Task-Management-Workflow-should-display-tasks-list-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Task-Management-Workflow-should-display-tasks-list-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                        "column": 42,
+                        "line": 45
+                      }
+                    },
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 14393,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected substring: \u001b[32m\"Tasks\"\u001b[39m\nReceived string:    \u001b[31m\"Welcome back\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    9 ├ù locator resolved to <h1 class=\"text-2xl font-bold text-gray-900 dark:text-gray-100\">Welcome back</h1>\u001b[22m\n\u001b[2m      - unexpected value \"Welcome back\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected substring: \u001b[32m\"Tasks\"\u001b[39m\nReceived string:    \u001b[31m\"Welcome back\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    9 ├ù locator resolved to <h1 class=\"text-2xl font-bold text-gray-900 dark:text-gray-100\">Welcome back</h1>\u001b[22m\n\u001b[2m      - unexpected value \"Welcome back\"\u001b[22m\n\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:45:42",
+                        "location": {
+                          "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                          "column": 42,
+                          "line": 45
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m\n \u001b[90m 44 |\u001b[39m     test(\u001b[32m'should display tasks list'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m         \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'Tasks'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 47 |\u001b[39m\n \u001b[90m 48 |\u001b[39m     test(\u001b[32m'should open create task modal (manager only)'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                            "column": 42,
+                            "line": 45
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1')\nExpected substring: \u001b[32m\"Tasks\"\u001b[39m\nReceived string:    \u001b[31m\"Welcome back\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    9 ├ù locator resolved to <h1 class=\"text-2xl font-bold text-gray-900 dark:text-gray-100\">Welcome back</h1>\u001b[22m\n\u001b[2m      - unexpected value \"Welcome back\"\u001b[22m\n\n\n  43 |\n  44 |     test('should display tasks list', async ({ page }) => {\n> 45 |         await expect(page.locator('h1')).toContainText('Tasks');\n     |                                          ^\n  46 |     });\n  47 |\n  48 |     test('should open create task modal (manager only)', async ({ page }) => {\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:45:42"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-01-13T01:39:50.251Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Task-Management-Workflow-should-display-tasks-list-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Task-Management-Workflow-should-display-tasks-list-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Task-Management-Workflow-should-display-tasks-list-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Task-Management-Workflow-should-display-tasks-list-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                        "column": 42,
+                        "line": 45
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-2d00eff6efd87dfe0376",
+              "file": "workflow.spec.ts",
+              "line": 44,
+              "column": 9
+            },
+            {
+              "title": "should open create task modal (manager only)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3790,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:27.880Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-c8804f25be741ccd1184",
+              "file": "workflow.spec.ts",
+              "line": 48,
+              "column": 9
+            },
+            {
+              "title": "should filter tasks by status",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3802,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:27.889Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-01e14799f419800b9410",
+              "file": "workflow.spec.ts",
+              "line": 57,
+              "column": 9
+            },
+            {
+              "title": "should search tasks",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2952,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:31.388Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-7e88fb426b69351f8576",
+              "file": "workflow.spec.ts",
+              "line": 65,
+              "column": 9
+            },
+            {
+              "title": "should export tasks to Excel",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2895,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:31.718Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-bbaa67c983ac5196f29e",
+              "file": "workflow.spec.ts",
+              "line": 73,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Navigation",
+          "file": "workflow.spec.ts",
+          "line": 83,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should navigate to dashboard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 12958,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/dashboard/\u001b[39m\nReceived string:  \u001b[31m\"http://localhost:3000/login\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 10000ms\u001b[22m\n\u001b[2m    13 ├ù unexpected value \"http://localhost:3000/login\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/dashboard/\u001b[39m\nReceived string:  \u001b[31m\"http://localhost:3000/login\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 10000ms\u001b[22m\n\u001b[2m    13 ├ù unexpected value \"http://localhost:3000/login\"\u001b[22m\n\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:87:28",
+                        "location": {
+                          "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                          "column": 28,
+                          "line": 87
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 85 |\u001b[39m         \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/dashboard'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 86 |\u001b[39m         \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'domcontentloaded'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 87 |\u001b[39m         \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/dashboard/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 88 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 89 |\u001b[39m\n \u001b[90m 90 |\u001b[39m     test(\u001b[32m'should navigate to calendar'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                            "column": 28,
+                            "line": 87
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/dashboard/\u001b[39m\nReceived string:  \u001b[31m\"http://localhost:3000/login\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 10000ms\u001b[22m\n\u001b[2m    13 ├ù unexpected value \"http://localhost:3000/login\"\u001b[22m\n\n\n  85 |         await page.goto('/dashboard');\n  86 |         await page.waitForLoadState('domcontentloaded');\n> 87 |         await expect(page).toHaveURL(/\\/dashboard/);\n     |                            ^\n  88 |     });\n  89 |\n  90 |     test('should navigate to calendar', async ({ page }) => {\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:87:28"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:31.737Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Navigation-should-navigate-to-dashboard-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Navigation-should-navigate-to-dashboard-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Navigation-should-navigate-to-dashboard-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                        "column": 28,
+                        "line": 87
+                      }
+                    },
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5186,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-01-13T01:39:52.224Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Navigation-should-navigate-to-dashboard-chromium-retry1\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "flaky"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-643272d58257dae04351",
+              "file": "workflow.spec.ts",
+              "line": 84,
+              "column": 9
+            },
+            {
+              "title": "should navigate to calendar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1202,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:34.375Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-03a1e50ac453c8fbb8ec",
+              "file": "workflow.spec.ts",
+              "line": 90,
+              "column": 9
+            },
+            {
+              "title": "should navigate to settings",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1213,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:34.647Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-de7268e5b5c5ba8857fd",
+              "file": "workflow.spec.ts",
+              "line": 96,
+              "column": 9
+            },
+            {
+              "title": "should sign out",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1286,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:35.615Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-faa8d2b12beb30527300",
+              "file": "workflow.spec.ts",
+              "line": 102,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Dashboard",
+          "file": "workflow.spec.ts",
+          "line": 114,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display dashboard stats",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2355,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:35.879Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-b4fd82c0870c1cd8ba69",
+              "file": "workflow.spec.ts",
+              "line": 120,
+              "column": 9
+            },
+            {
+              "title": "should display charts (manager view)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2225,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:36.930Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-38d8884ec38774b3d667",
+              "file": "workflow.spec.ts",
+              "line": 126,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Calendar",
+          "file": "workflow.spec.ts",
+          "line": 133,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display calendar grid",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 1587,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:142:25",
+                        "location": {
+                          "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                          "column": 25,
+                          "line": 142
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 140 |\u001b[39m         \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 141 |\u001b[39m         \u001b[36mconst\u001b[39m hasDays \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=/Sun|Mon|Tue/'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39misVisible()\u001b[33m.\u001b[39m\u001b[36mcatch\u001b[39m(() \u001b[33m=>\u001b[39m \u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 142 |\u001b[39m         expect(hasDays)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 143 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 144 |\u001b[39m\n \u001b[90m 145 |\u001b[39m     test(\u001b[32m'should navigate months'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                            "column": 25,
+                            "line": 142
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n  140 |         await page.waitForTimeout(500);\n  141 |         const hasDays = await page.locator('text=/Sun|Mon|Tue/').first().isVisible().catch(() => false);\n> 142 |         expect(hasDays).toBeTruthy();\n      |                         ^\n  143 |     });\n  144 |\n  145 |     test('should navigate months', async ({ page }) => {\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:142:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:38.255Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Calendar-should-display-calendar-grid-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Calendar-should-display-calendar-grid-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Calendar-should-display-calendar-grid-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                        "column": 25,
+                        "line": 142
+                      }
+                    },
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 3956,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:142:25",
+                        "location": {
+                          "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                          "column": 25,
+                          "line": 142
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 140 |\u001b[39m         \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 141 |\u001b[39m         \u001b[36mconst\u001b[39m hasDays \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=/Sun|Mon|Tue/'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39misVisible()\u001b[33m.\u001b[39m\u001b[36mcatch\u001b[39m(() \u001b[33m=>\u001b[39m \u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 142 |\u001b[39m         expect(hasDays)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 143 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 144 |\u001b[39m\n \u001b[90m 145 |\u001b[39m     test(\u001b[32m'should navigate months'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                            "column": 25,
+                            "line": 142
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n  140 |         await page.waitForTimeout(500);\n  141 |         const hasDays = await page.locator('text=/Sun|Mon|Tue/').first().isVisible().catch(() => false);\n> 142 |         expect(hasDays).toBeTruthy();\n      |                         ^\n  143 |     });\n  144 |\n  145 |     test('should navigate months', async ({ page }) => {\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:142:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-01-13T01:39:47.627Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Calendar-should-display-calendar-grid-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Calendar-should-display-calendar-grid-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Calendar-should-display-calendar-grid-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Calendar-should-display-calendar-grid-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                        "column": 25,
+                        "line": 142
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-977ae7832be8465b68b6",
+              "file": "workflow.spec.ts",
+              "line": 139,
+              "column": 9
+            },
+            {
+              "title": "should navigate months",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1948,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:39.183Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-1eb49ad59be12fdb0d04",
+              "file": "workflow.spec.ts",
+              "line": 145,
+              "column": 9
+            },
+            {
+              "title": "should select a date",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1965,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:41.162Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-26c2a311b1e5893acd4a",
+              "file": "workflow.spec.ts",
+              "line": 154,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Settings",
+          "file": "workflow.spec.ts",
+          "line": 164,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display settings page",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 2158,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:173:29",
+                        "location": {
+                          "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                          "column": 29,
+                          "line": 173
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 171 |\u001b[39m         \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 172 |\u001b[39m         \u001b[36mconst\u001b[39m hasSettings \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=/Settings|Profile/i'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39misVisible()\u001b[33m.\u001b[39m\u001b[36mcatch\u001b[39m(() \u001b[33m=>\u001b[39m \u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 173 |\u001b[39m         expect(hasSettings)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 174 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 175 |\u001b[39m\n \u001b[90m 176 |\u001b[39m     test(\u001b[32m'should switch tabs'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                            "column": 29,
+                            "line": 173
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n  171 |         await page.waitForTimeout(500);\n  172 |         const hasSettings = await page.locator('text=/Settings|Profile/i').first().isVisible().catch(() => false);\n> 173 |         expect(hasSettings).toBeTruthy();\n      |                             ^\n  174 |     });\n  175 |\n  176 |     test('should switch tabs', async ({ page }) => {\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:173:29"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:43.166Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Settings-should-display-settings-page-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Settings-should-display-settings-page-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Settings-should-display-settings-page-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                        "column": 29,
+                        "line": 173
+                      }
+                    },
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 6115,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:173:29",
+                        "location": {
+                          "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                          "column": 29,
+                          "line": 173
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 171 |\u001b[39m         \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m500\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 172 |\u001b[39m         \u001b[36mconst\u001b[39m hasSettings \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=/Settings|Profile/i'\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39misVisible()\u001b[33m.\u001b[39m\u001b[36mcatch\u001b[39m(() \u001b[33m=>\u001b[39m \u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 173 |\u001b[39m         expect(hasSettings)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 174 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 175 |\u001b[39m\n \u001b[90m 176 |\u001b[39m     test(\u001b[32m'should switch tabs'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                            "column": 29,
+                            "line": 173
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mfalse\u001b[39m\n\n  171 |         await page.waitForTimeout(500);\n  172 |         const hasSettings = await page.locator('text=/Settings|Profile/i').first().isVisible().catch(() => false);\n> 173 |         expect(hasSettings).toBeTruthy();\n      |                             ^\n  174 |     });\n  175 |\n  176 |     test('should switch tabs', async ({ page }) => {\n    at C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts:173:29"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-01-13T01:39:52.930Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Settings-should-display-settings-page-chromium-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Settings-should-display-settings-page-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Settings-should-display-settings-page-chromium-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\test-results\\workflow-Settings-should-display-settings-page-chromium-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\taini\\.gemini\\antigravity\\To Do\\work-assignment-app\\tests\\workflow.spec.ts",
+                        "column": 29,
+                        "line": 173
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-ec9f98fc3162145815c8",
+              "file": "workflow.spec.ts",
+              "line": 170,
+              "column": 9
+            },
+            {
+              "title": "should switch tabs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2820,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:40:02.914Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-e406c93e3b3fd69f7041",
+              "file": "workflow.spec.ts",
+              "line": 176,
+              "column": 9
+            },
+            {
+              "title": "should update profile name",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3802,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:39:58.515Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-57d3f25c7d922fc6e3f6",
+              "file": "workflow.spec.ts",
+              "line": 185,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "Reports (Manager)",
+          "file": "workflow.spec.ts",
+          "line": 195,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should navigate to reports",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1045,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-13T01:40:08.193Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c601ceb5ecfc8efa4a14-8344e44c9a6b14fe1703",
+              "file": "workflow.spec.ts",
+              "line": 196,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-01-13T01:39:08.114Z",
+    "duration": 61525.990999999995,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 1
+  }
+}

@@ -1,0 +1,60 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Check file size (10MB max)
+    function isValidFileSize() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+    
+    // Check if file type is allowed
+    function isValidFileType() {
+      return request.resource.contentType.matches('image/.*') ||
+             request.resource.contentType.matches('application/pdf') ||
+             request.resource.contentType.matches('application/msword') ||
+             request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.*') ||
+             request.resource.contentType.matches('text/.*');
+    }
+    
+    // Organization files
+    match /orgs/{orgId}/{allPaths=**} {
+      // Only authenticated users can access org files
+      // Additional checks should be done server-side via Cloud Functions
+      // or by verifying custom claims
+      
+      allow read: if isAuthenticated();
+      
+      allow write: if isAuthenticated() && 
+                     isValidFileSize() && 
+                     isValidFileType();
+      
+      allow delete: if isAuthenticated();
+    }
+    
+    // Task attachments
+    match /orgs/{orgId}/tasks/{taskId}/attachments/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && isValidFileSize() && isValidFileType();
+      allow delete: if isAuthenticated();
+    }
+    
+    // User avatars
+    match /orgs/{orgId}/users/{userId}/avatar/{fileName} {
+      // Anyone in org can read avatars
+      allow read: if isAuthenticated();
+      
+      // Users can only upload their own avatar
+      allow write: if isAuthenticated() && 
+                     request.auth.uid == userId &&
+                     request.resource.size < 2 * 1024 * 1024 &&
+                     request.resource.contentType.matches('image/.*');
+      
+      allow delete: if isAuthenticated() && request.auth.uid == userId;
+    }
+  }
+}

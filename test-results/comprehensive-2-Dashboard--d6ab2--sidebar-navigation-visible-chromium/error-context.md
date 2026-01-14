@@ -1,0 +1,41 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - img [ref=e6]
+      - heading "Welcome back" [level=1] [ref=e9]
+      - paragraph [ref=e10]: Sign in to your account
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: Email
+          - generic [ref=e15]:
+            - generic:
+              - img
+            - textbox "Email" [ref=e16]:
+              - /placeholder: you@tsb.com.vn
+        - generic [ref=e17]:
+          - generic [ref=e18]: Password
+          - generic [ref=e19]:
+            - generic:
+              - img
+            - textbox "Password" [ref=e20]:
+              - /placeholder: Enter your password
+        - generic [ref=e21]:
+          - generic [ref=e22] [cursor=pointer]:
+            - checkbox "Remember me" [ref=e23]
+            - generic [ref=e24]: Remember me
+          - link "Forgot password?" [ref=e25] [cursor=pointer]:
+            - /url: /forgot-password
+        - button "Sign in" [ref=e26]
+      - paragraph [ref=e28]:
+        - text: Don't have an account?
+        - link "Sign up" [ref=e29] [cursor=pointer]:
+          - /url: /register
+    - paragraph [ref=e30]: Only @tsb.com.vn email addresses are allowed
+  - button "Open Next.js Dev Tools" [ref=e36] [cursor=pointer]:
+    - img [ref=e37]
+  - alert [ref=e40]
+```

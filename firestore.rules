@@ -1,0 +1,236 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ============== HELPER FUNCTIONS ==============
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Get user document
+    function getUserDoc(orgId) {
+      return get(/databases/$(database)/documents/orgs/$(orgId)/users/$(request.auth.uid));
+    }
+    
+    // Check if user exists in org
+    function isOrgMember(orgId) {
+      return isAuthenticated() && exists(/databases/$(database)/documents/orgs/$(orgId)/users/$(request.auth.uid));
+    }
+    
+    // Check if user is active (not disabled)
+    function isActiveUser(orgId) {
+      return isOrgMember(orgId) && getUserDoc(orgId).data.status != 'disabled';
+    }
+    
+    // Get user role
+    function getUserRole(orgId) {
+      return getUserDoc(orgId).data.role;
+    }
+    
+    // Check if user is admin
+    function isAdmin(orgId) {
+      return isActiveUser(orgId) && getUserRole(orgId) == 'admin';
+    }
+    
+    // Check if user is manager or admin
+    function isManagerOrAdmin(orgId) {
+      return isActiveUser(orgId) && (getUserRole(orgId) == 'admin' || getUserRole(orgId) == 'manager');
+    }
+    
+    // Check if user manages the team
+    function managesTeam(orgId, teamId) {
+      return isActiveUser(orgId) && 
+             (getUserRole(orgId) == 'admin' || 
+              teamId in getUserDoc(orgId).data.managedTeamIds);
+    }
+    
+    // Check if user manages the project
+    function managesProject(orgId, projectId) {
+      return isActiveUser(orgId) && 
+             (getUserRole(orgId) == 'admin' || 
+              projectId in getUserDoc(orgId).data.managedProjectIds);
+    }
+    
+    // Check if user is assigned to task
+    function isTaskAssignee(orgId, taskId) {
+      let task = get(/databases/$(database)/documents/orgs/$(orgId)/tasks/$(taskId));
+      return request.auth.uid in task.data.assigneeIds;
+    }
+    
+    // Check if user can access task (assigned or manager of project/team)
+    function canAccessTask(orgId, taskData) {
+      return isAdmin(orgId) ||
+             (taskData.projectId != null && managesProject(orgId, taskData.projectId)) ||
+             (taskData.teamId != null && managesTeam(orgId, taskData.teamId)) ||
+             request.auth.uid in taskData.assigneeIds;
+    }
+    
+    // Fields that employees cannot modify
+    function isProtectedField(field) {
+      return field in ['orgId', 'createdBy', 'createdAt', 'assigneeIds', 'projectId', 'teamId'];
+    }
+    
+    // ============== ORGANIZATION RULES ==============
+    
+    match /orgs/{orgId} {
+      // Only authenticated users in org can read org
+      allow read: if isActiveUser(orgId);
+      // Only admins can update org settings
+      allow update: if isAdmin(orgId);
+      // Creating orgs is done through admin/setup process
+      allow create, delete: if false;
+      
+      // ============== USERS COLLECTION ==============
+      
+      match /users/{userId} {
+        // Users can read other users in same org
+        allow read: if isActiveUser(orgId);
+        
+        // Only admins can create users
+        allow create: if isAdmin(orgId);
+        
+        // Users can update their own profile (limited fields)
+        // Admins can update any user
+        allow update: if isActiveUser(orgId) && (
+          // Admin can update any user
+          isAdmin(orgId) ||
+          // Users can only update their own non-role fields
+          (request.auth.uid == userId && 
+           !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status', 'orgId']))
+        );
+        
+        // Only admins can delete users
+        allow delete: if isAdmin(orgId);
+      }
+      
+      // ============== TEAMS COLLECTION ==============
+      
+      match /teams/{teamId} {
+        // Members and managers can read teams they belong to
+        // Admins can read all teams
+        allow read: if isActiveUser(orgId) && (
+          isAdmin(orgId) ||
+          request.auth.uid in resource.data.memberIds ||
+          request.auth.uid in resource.data.managerIds
+        );
+        
+        // Only admins can create teams
+        allow create: if isAdmin(orgId);
+        
+        // Admins and team managers can update
+        allow update: if isAdmin(orgId) || managesTeam(orgId, teamId);
+        
+        // Only admins can delete teams
+        allow delete: if isAdmin(orgId);
+      }
+      
+      // ============== PROJECTS COLLECTION ==============
+      
+      match /projects/{projectId} {
+        // Members and managers can read projects they belong to
+        allow read: if isActiveUser(orgId) && (
+          isAdmin(orgId) ||
+          request.auth.uid in resource.data.memberIds ||
+          request.auth.uid in resource.data.managerIds
+        );
+        
+        // Admins and managers (for their teams) can create projects
+        allow create: if isManagerOrAdmin(orgId);
+        
+        // Admins and project managers can update
+        allow update: if isAdmin(orgId) || managesProject(orgId, projectId);
+        
+        // Only admins can delete projects
+        allow delete: if isAdmin(orgId);
+      }
+      
+      // ============== TASKS COLLECTION ==============
+      
+      match /tasks/{taskId} {
+        // Users can read tasks they have access to
+        allow read: if isActiveUser(orgId) && canAccessTask(orgId, resource.data);
+        
+        // Admins and managers can create tasks
+        allow create: if isManagerOrAdmin(orgId) && 
+                        request.resource.data.orgId == orgId;
+        
+        // Task updates with role-based field restrictions
+        allow update: if isActiveUser(orgId) && (
+          // Admins and managers can update all fields
+          isManagerOrAdmin(orgId) ||
+          // Assignees can only update status and specific fields
+          (request.auth.uid in resource.data.assigneeIds &&
+           // Only allow updating status, checklistItems
+           request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['status', 'checklistItems', 'updatedAt', 'completedAt']))
+        );
+        
+        // Only admins and managers can delete tasks
+        allow delete: if isManagerOrAdmin(orgId);
+        
+        // ============== COMMENTS SUBCOLLECTION ==============
+        
+        match /comments/{commentId} {
+          // Anyone who can access task can read comments
+          allow read: if isActiveUser(orgId) && 
+                        canAccessTask(orgId, get(/databases/$(database)/documents/orgs/$(orgId)/tasks/$(taskId)).data);
+          
+          // Anyone who can access task can create comments
+          allow create: if isActiveUser(orgId) && 
+                          canAccessTask(orgId, get(/databases/$(database)/documents/orgs/$(orgId)/tasks/$(taskId)).data) &&
+                          request.resource.data.authorId == request.auth.uid;
+          
+          // Only comment author or admin can update/delete
+          allow update: if isActiveUser(orgId) && 
+                          (resource.data.authorId == request.auth.uid || isAdmin(orgId));
+          allow delete: if isActiveUser(orgId) && 
+                          (resource.data.authorId == request.auth.uid || isAdmin(orgId));
+        }
+        
+        // ============== ACTIVITY LOGS SUBCOLLECTION ==============
+        
+        match /activityLogs/{logId} {
+          // Anyone who can access task can read activity logs
+          allow read: if isActiveUser(orgId) && 
+                        canAccessTask(orgId, get(/databases/$(database)/documents/orgs/$(orgId)/tasks/$(taskId)).data);
+          
+          // Activity logs are created by the system/application
+          allow create: if isActiveUser(orgId);
+          
+          // Activity logs cannot be updated or deleted
+          allow update, delete: if false;
+        }
+      }
+      
+      // ============== AUDIT LOGS COLLECTION ==============
+      
+      match /auditLogs/{logId} {
+        // Only admins can read audit logs
+        allow read: if isAdmin(orgId);
+        
+        // Audit logs are created by the application
+        allow create: if isActiveUser(orgId);
+        
+        // Audit logs cannot be updated or deleted
+        allow update, delete: if false;
+      }
+      
+      // ============== REMINDER SETTINGS COLLECTION ==============
+      
+      match /reminderSettings/{settingsId} {
+        // Users can read their own settings or global settings
+        allow read: if isActiveUser(orgId) && 
+                      (settingsId == 'global' || settingsId == request.auth.uid);
+        
+        // Only admins can update global settings
+        // Users can update their own settings
+        allow write: if isActiveUser(orgId) && (
+          (settingsId == 'global' && isAdmin(orgId)) ||
+          settingsId == request.auth.uid
+        );
+      }
+    }
+  }
+}
