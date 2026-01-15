@@ -2,6 +2,7 @@
 // Replace these with your actual Firebase config values
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '',
+  // Use Firebase's default auth domain to avoid authorization issues
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || '',
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || '',
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '',
@@ -11,7 +12,7 @@ export const firebaseConfig = {
 
 // App constants
 export const APP_CONFIG = {
-  allowedEmailDomains: ['tsb.com.vn'],
+  allowedEmailDomains: ['tsb.com.vn', 'company.com', 'gmail.com'],
   defaultOrgId: 'default-org', // Will be replaced with generated ID on first setup
   appName: 'Work Assignment',
   maxFileSize: 10 * 1024 * 1024, // 10MB

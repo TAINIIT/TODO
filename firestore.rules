@@ -53,12 +53,6 @@ service cloud.firestore {
               projectId in getUserDoc(orgId).data.managedProjectIds);
     }
     
-    // Check if user is assigned to task
-    function isTaskAssignee(orgId, taskId) {
-      let task = get(/databases/$(database)/documents/orgs/$(orgId)/tasks/$(taskId));
-      return request.auth.uid in task.data.assigneeIds;
-    }
-    
     // Check if user can access task (assigned or manager of project/team)
     function canAccessTask(orgId, taskData) {
       return isAdmin(orgId) ||
@@ -67,16 +61,11 @@ service cloud.firestore {
              request.auth.uid in taskData.assigneeIds;
     }
     
-    // Fields that employees cannot modify
-    function isProtectedField(field) {
-      return field in ['orgId', 'createdBy', 'createdAt', 'assigneeIds', 'projectId', 'teamId'];
-    }
-    
     // ============== ORGANIZATION RULES ==============
     
     match /orgs/{orgId} {
-      // Only authenticated users in org can read org
-      allow read: if isActiveUser(orgId);
+      // Authenticated users can read org
+      allow read: if isAuthenticated();
       // Only admins can update org settings
       allow update: if isAdmin(orgId);
       // Creating orgs is done through admin/setup process
@@ -85,24 +74,24 @@ service cloud.firestore {
       // ============== USERS COLLECTION ==============
       
       match /users/{userId} {
-        // Users can read other users in same org
-        allow read: if isActiveUser(orgId);
+        // Any authenticated user can read users (simplified for now)
+        allow read: if isAuthenticated();
         
-        // Only admins can create users
-        allow create: if isAdmin(orgId);
+        // Allow authenticated user to create their own document
+        // Or admins can create any user
+        allow create: if isAuthenticated() && (
+          request.auth.uid == userId ||
+          (isOrgMember(orgId) && getUserDoc(orgId).data.role == 'admin')
+        );
         
-        // Users can update their own profile (limited fields)
-        // Admins can update any user
-        allow update: if isActiveUser(orgId) && (
-          // Admin can update any user
-          isAdmin(orgId) ||
-          // Users can only update their own non-role fields
-          (request.auth.uid == userId && 
-           !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status', 'orgId']))
+        // Users can update their own profile, admins can update any
+        allow update: if isAuthenticated() && (
+          request.auth.uid == userId ||
+          (isOrgMember(orgId) && getUserDoc(orgId).data.role == 'admin')
         );
         
         // Only admins can delete users
-        allow delete: if isAdmin(orgId);
+        allow delete: if isOrgMember(orgId) && getUserDoc(orgId).data.role == 'admin';
       }
       
       // ============== TEAMS COLLECTION ==============

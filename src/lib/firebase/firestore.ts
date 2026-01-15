@@ -18,8 +18,9 @@ import {
     arrayUnion,
     onSnapshot,
     Unsubscribe,
+    Firestore,
 } from 'firebase/firestore';
-import { db } from './config';
+import { db as dbInstance, initializeFirebase, isFirebaseReady } from './config';
 import type {
     User,
     Team,
@@ -35,6 +36,17 @@ import type {
     ReminderSettings,
 } from '@/types';
 
+// Helper to get initialized Firestore instance
+function getDb(): Firestore {
+    if (!isFirebaseReady()) {
+        initializeFirebase();
+    }
+    if (!isFirebaseReady()) {
+        throw new Error('Firebase is not initialized. Please check your configuration.');
+    }
+    return dbInstance;
+}
+
 // Collection paths
 const getUsersPath = (orgId: string) => `orgs/${orgId}/users`;
 const getTeamsPath = (orgId: string) => `orgs/${orgId}/teams`;
@@ -47,6 +59,7 @@ const getReminderSettingsPath = (orgId: string) => `orgs/${orgId}/reminderSettin
 // ============== USER OPERATIONS ==============
 
 export async function getUserById(orgId: string, userId: string): Promise<User | null> {
+    const db = getDb();
     const docRef = doc(db, getUsersPath(orgId), userId);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
@@ -54,6 +67,7 @@ export async function getUserById(orgId: string, userId: string): Promise<User |
 }
 
 export async function getUserByEmail(orgId: string, email: string): Promise<User | null> {
+    const db = getDb();
     const q = query(
         collection(db, getUsersPath(orgId)),
         where('email', '==', email.toLowerCase()),
@@ -61,8 +75,8 @@ export async function getUserByEmail(orgId: string, email: string): Promise<User
     );
     const snapshot = await getDocs(q);
     if (snapshot.empty) return null;
-    const doc = snapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as User;
+    const docItem = snapshot.docs[0];
+    return { id: docItem.id, ...docItem.data() } as User;
 }
 
 export async function getUsers(
@@ -73,6 +87,7 @@ export async function getUsers(
         teamId?: string;
     }
 ): Promise<User[]> {
+    const db = getDb();
     const constraints: QueryConstraint[] = [];
 
     if (filters?.role) {
@@ -98,6 +113,7 @@ export async function createUser(
     data: CreateUserData,
     createdBy: string
 ): Promise<User> {
+    const db = getDb();
     const now = Timestamp.now();
     const user: Omit<User, 'id'> = {
         orgId,
@@ -123,6 +139,7 @@ export async function updateUser(
     userId: string,
     data: Partial<User>
 ): Promise<void> {
+    const db = getDb();
     const docRef = doc(db, getUsersPath(orgId), userId);
     await updateDoc(docRef, {
         ...data,
@@ -141,6 +158,7 @@ export async function activateUser(orgId: string, userId: string): Promise<void>
 // ============== TEAM OPERATIONS ==============
 
 export async function getTeamById(orgId: string, teamId: string): Promise<Team | null> {
+    const db = getDb();
     const docRef = doc(db, getTeamsPath(orgId), teamId);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
@@ -148,6 +166,7 @@ export async function getTeamById(orgId: string, teamId: string): Promise<Team |
 }
 
 export async function getTeams(orgId: string, managerId?: string): Promise<Team[]> {
+    const db = getDb();
     let q;
     if (managerId) {
         q = query(
@@ -169,6 +188,7 @@ export async function createTeam(
     data: CreateTeamData,
     createdBy: string
 ): Promise<Team> {
+    const db = getDb();
     const now = Timestamp.now();
     const teamRef = doc(collection(db, getTeamsPath(orgId)));
 
@@ -211,6 +231,7 @@ export async function updateTeam(
     teamId: string,
     data: Partial<CreateTeamData>
 ): Promise<void> {
+    const db = getDb();
     const docRef = doc(db, getTeamsPath(orgId), teamId);
     await updateDoc(docRef, {
         ...data,
@@ -219,12 +240,14 @@ export async function updateTeam(
 }
 
 export async function deleteTeam(orgId: string, teamId: string): Promise<void> {
+    const db = getDb();
     await deleteDoc(doc(db, getTeamsPath(orgId), teamId));
 }
 
 // ============== PROJECT OPERATIONS ==============
 
 export async function getProjectById(orgId: string, projectId: string): Promise<Project | null> {
+    const db = getDb();
     const docRef = doc(db, getProjectsPath(orgId), projectId);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
@@ -240,6 +263,7 @@ export async function getProjects(
         memberId?: string;
     }
 ): Promise<Project[]> {
+    const db = getDb();
     const constraints: QueryConstraint[] = [];
 
     if (filters?.managerId) {
@@ -268,6 +292,7 @@ export async function createProject(
     data: CreateProjectData,
     createdBy: string
 ): Promise<Project> {
+    const db = getDb();
     const now = Timestamp.now();
     const projectRef = doc(collection(db, getProjectsPath(orgId)));
 
@@ -314,6 +339,7 @@ export async function updateProject(
     projectId: string,
     data: Partial<CreateProjectData>
 ): Promise<void> {
+    const db = getDb();
     const updateData: Record<string, unknown> = {
         ...data,
         updatedAt: Timestamp.now(),
@@ -331,12 +357,14 @@ export async function updateProject(
 }
 
 export async function deleteProject(orgId: string, projectId: string): Promise<void> {
+    const db = getDb();
     await deleteDoc(doc(db, getProjectsPath(orgId), projectId));
 }
 
 // ============== TASK OPERATIONS ==============
 
 export async function getTaskById(orgId: string, taskId: string): Promise<Task | null> {
+    const db = getDb();
     const docRef = doc(db, getTasksPath(orgId), taskId);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
@@ -359,6 +387,7 @@ export async function getTasks(
         startAfter?: DocumentSnapshot;
     }
 ): Promise<Task[]> {
+    const db = getDb();
     const constraints: QueryConstraint[] = [];
 
     if (filters?.assigneeId) {
@@ -402,6 +431,7 @@ export async function getTasks(
 }
 
 export async function getOverdueTasks(orgId: string, assigneeId?: string): Promise<Task[]> {
+    const db = getDb();
     const constraints: QueryConstraint[] = [
         where('status', 'in', ['backlog', 'in_progress', 'blocked']),
         where('dueDate', '<', Timestamp.now()),
@@ -422,6 +452,7 @@ export async function createTask(
     data: CreateTaskData,
     createdBy: string
 ): Promise<Task> {
+    const db = getDb();
     const now = Timestamp.now();
     const taskRef = doc(collection(db, getTasksPath(orgId)));
 
@@ -450,6 +481,7 @@ export async function updateTask(
     taskId: string,
     data: UpdateTaskData
 ): Promise<void> {
+    const db = getDb();
     const updateData: Record<string, unknown> = {
         ...data,
         updatedAt: Timestamp.now(),
@@ -474,6 +506,7 @@ export async function updateTaskStatus(
     taskId: string,
     status: string
 ): Promise<void> {
+    const db = getDb();
     const updateData: Record<string, unknown> = {
         status,
         updatedAt: Timestamp.now(),
@@ -488,12 +521,14 @@ export async function updateTaskStatus(
 }
 
 export async function deleteTask(orgId: string, taskId: string): Promise<void> {
+    const db = getDb();
     await deleteDoc(doc(db, getTasksPath(orgId), taskId));
 }
 
 // ============== COMMENT OPERATIONS ==============
 
 export async function getComments(orgId: string, taskId: string): Promise<Comment[]> {
+    const db = getDb();
     const q = query(
         collection(db, getCommentsPath(orgId, taskId)),
         orderBy('createdAt', 'asc')
@@ -509,6 +544,7 @@ export async function createComment(
     authorId: string,
     mentions?: string[]
 ): Promise<Comment> {
+    const db = getDb();
     const now = Timestamp.now();
     const commentRef = doc(collection(db, getCommentsPath(orgId, taskId)));
 
@@ -531,6 +567,7 @@ export async function deleteComment(
     taskId: string,
     commentId: string
 ): Promise<void> {
+    const db = getDb();
     await deleteDoc(doc(db, getCommentsPath(orgId, taskId), commentId));
 }
 
@@ -540,6 +577,7 @@ export async function createAuditLog(
     orgId: string,
     data: Omit<AuditLog, 'id' | 'orgId' | 'createdAt'>
 ): Promise<void> {
+    const db = getDb();
     const logRef = doc(collection(db, getAuditLogsPath(orgId)));
     await setDoc(logRef, {
         ...data,
@@ -559,6 +597,7 @@ export async function getAuditLogs(
     },
     pageLimit = 50
 ): Promise<AuditLog[]> {
+    const db = getDb();
     const constraints: QueryConstraint[] = [];
 
     if (filters?.entityType) {
@@ -591,6 +630,7 @@ export async function getReminderSettings(
     orgId: string,
     scope: 'global' | string
 ): Promise<ReminderSettings | null> {
+    const db = getDb();
     const docRef = doc(db, getReminderSettingsPath(orgId), scope);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
@@ -602,6 +642,7 @@ export async function updateReminderSettings(
     scopeId: string,
     data: Partial<ReminderSettings>
 ): Promise<void> {
+    const db = getDb();
     const docRef = doc(db, getReminderSettingsPath(orgId), scopeId);
     await setDoc(docRef, {
         ...data,
@@ -617,6 +658,7 @@ export function subscribeToTasks(
     assigneeId: string,
     callback: (tasks: Task[]) => void
 ): Unsubscribe {
+    const db = getDb();
     const q = query(
         collection(db, getTasksPath(orgId)),
         where('assigneeIds', 'array-contains', assigneeId),
@@ -634,6 +676,7 @@ export function subscribeToComments(
     taskId: string,
     callback: (comments: Comment[]) => void
 ): Unsubscribe {
+    const db = getDb();
     const q = query(
         collection(db, getCommentsPath(orgId, taskId)),
         orderBy('createdAt', 'asc')
@@ -645,4 +688,5 @@ export function subscribeToComments(
     });
 }
 
-export { db };
+// Export getDb for external use
+export { getDb };

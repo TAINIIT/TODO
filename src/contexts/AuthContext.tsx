@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { User as FirebaseUser } from 'firebase/auth';
 import { onAuthChange, signOut as firebaseSignOut } from '@/lib/firebase/auth';
-import { getUserById, updateUser } from '@/lib/firebase/firestore';
+import { getUserById, updateUser, createUser } from '@/lib/firebase/firestore';
 import { APP_CONFIG } from '@/lib/constants';
 import type { User, AppUser } from '@/types';
 import { Timestamp } from 'firebase/firestore';
@@ -26,8 +26,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [error, setError] = useState<string | null>(null);
 
     const loadUserData = useCallback(async (fbUser: FirebaseUser) => {
+        console.log('Loading user data for:', fbUser.email);
+        
         try {
-            const userData = await getUserById(APP_CONFIG.defaultOrgId, fbUser.uid);
+            // Try to get user from Firestore
+            let userData = await getUserById(APP_CONFIG.defaultOrgId, fbUser.uid);
+            console.log('User data from Firestore:', userData);
+
+            // Auto-create user document if it doesn't exist in Firestore
+            if (!userData && fbUser.email) {
+                console.log('Creating new user document for:', fbUser.email);
+                try {
+                    userData = await createUser(
+                        APP_CONFIG.defaultOrgId,
+                        fbUser.uid,
+                        {
+                            email: fbUser.email,
+                            displayName: fbUser.displayName || fbUser.email.split('@')[0],
+                            role: 'employee',
+                            teamIds: [],
+                            projectIds: [],
+                        },
+                        fbUser.uid
+                    );
+                    // Activate the user immediately
+                    await updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
+                        status: 'active',
+                        lastLoginAt: Timestamp.now(),
+                    });
+                    userData.status = 'active';
+                    console.log('User created successfully:', userData);
+                } catch (createErr) {
+                    console.error('Failed to create user:', createErr);
+                    throw createErr;
+                }
+            }
 
             if (userData) {
                 // Check if user is disabled
@@ -38,12 +71,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     return;
                 }
 
-                // Update last login
-                await updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
+                // Update last login (fire and forget)
+                updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
                     lastLoginAt: Timestamp.now(),
-                });
+                }).catch(err => console.warn('Failed to update last login:', err));
 
-                setUser({
+                const appUser: AppUser = {
                     ...userData,
                     authUser: {
                         uid: fbUser.uid,
@@ -51,22 +84,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                         displayName: fbUser.displayName,
                         photoURL: fbUser.photoURL,
                     },
-                });
+                };
+                
+                console.log('Setting user:', appUser);
+                setUser(appUser);
                 setError(null);
             } else {
-                // User exists in Firebase Auth but not in Firestore
-                // This could happen during registration flow
+                console.log('No user data found, setting user to null');
                 setUser(null);
             }
         } catch (err) {
             console.error('Error loading user data:', err);
-            setError('Failed to load user data');
+            const errorMessage = (err as Error).message || '';
+            
+            if (errorMessage.includes('offline') || errorMessage.includes('unavailable')) {
+                setError('Unable to connect to server. Please check your internet connection and try again.');
+            } else if (errorMessage.includes('permission')) {
+                setError('Permission denied. Please contact administrator.');
+            } else {
+                setError('Failed to load user data. Please try again.');
+            }
             setUser(null);
         }
     }, []);
 
     useEffect(() => {
+        console.log('Setting up auth listener...');
+        
         const unsubscribe = onAuthChange(async (fbUser) => {
+            console.log('Auth state changed:', fbUser?.email || 'No user');
             setFirebaseUser(fbUser);
 
             if (fbUser) {
