@@ -1,6 +1,12 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, Firestore, connectFirestoreEmulator } from 'firebase/firestore';
+import {
+    getFirestore,
+    Firestore,
+    connectFirestoreEmulator,
+    initializeFirestore,
+    memoryLocalCache,
+} from 'firebase/firestore';
 import { getStorage, FirebaseStorage, connectStorageEmulator } from 'firebase/storage';
 import { firebaseConfig } from '../constants';
 
@@ -28,11 +34,27 @@ function initializeFirebase() {
     try {
         app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
         auth = getAuth(app);
-        db = getFirestore(app);
+
+        // Use memory-only cache in production to avoid IndexedDB offline issues
+        // This forces network-first behavior and prevents "client is offline" errors
+        if (getApps().length === 1) {
+            // Only initialize Firestore with settings for new apps
+            try {
+                db = initializeFirestore(app, {
+                    localCache: memoryLocalCache(),
+                });
+            } catch {
+                // Firestore already initialized, get existing instance
+                db = getFirestore(app);
+            }
+        } else {
+            db = getFirestore(app);
+        }
+
         storage = getStorage(app);
         initialized = true;
 
-        console.log('Firebase initialized successfully');
+        console.log('Firebase initialized successfully with memory cache');
 
         // Connect to emulators in development
         if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
