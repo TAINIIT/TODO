@@ -57,6 +57,12 @@ function initializeFirebase() {
         initialized = true;
 
         console.log('Firebase initialized successfully with memory cache');
+        console.log('Firebase config:', {
+            projectId: firebaseConfig.projectId,
+            authDomain: firebaseConfig.authDomain,
+            hasApiKey: !!firebaseConfig.apiKey,
+            storageBucket: firebaseConfig.storageBucket,
+        });
 
         // Connect to emulators in development
         if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_EMULATORS === 'true') {
