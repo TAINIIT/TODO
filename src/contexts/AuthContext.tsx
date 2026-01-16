@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import { User as FirebaseUser } from 'firebase/auth';
 import { onAuthChange, signOut as firebaseSignOut } from '@/lib/firebase/auth';
 import { getUserById, updateUser, createUser } from '@/lib/firebase/firestore';
+import { getDocumentViaRest, setDocumentViaRest } from '@/lib/firebase/firestore-rest';
 import { APP_CONFIG } from '@/lib/constants';
 import type { User, AppUser } from '@/types';
 import { Timestamp } from 'firebase/firestore';
@@ -28,71 +29,99 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const loadUserData = useCallback(async (fbUser: FirebaseUser) => {
         console.log('Loading user data for:', fbUser.email);
 
-        // Retry function with exponential backoff
-        const fetchWithRetry = async <T,>(
-            operation: () => Promise<T>,
-            maxRetries = 3,
-            delayMs = 1000
-        ): Promise<T> => {
-            let lastError: Error | null = null;
-            for (let attempt = 0; attempt < maxRetries; attempt++) {
-                try {
-                    return await operation();
-                } catch (err) {
-                    lastError = err as Error;
-                    const errorMessage = lastError.message || '';
-                    // Only retry on offline/unavailable errors
-                    if (errorMessage.includes('offline') || errorMessage.includes('unavailable')) {
-                        console.log(`Retry attempt ${attempt + 1}/${maxRetries} after ${delayMs}ms...`);
-                        await new Promise(resolve => setTimeout(resolve, delayMs));
-                        delayMs *= 2; // Exponential backoff
-                    } else {
-                        throw lastError;
-                    }
-                }
-            }
-            throw lastError;
-        };
-
         try {
-            // Wait a bit for auth token to propagate to Firestore
+            // Wait a bit for auth token to propagate
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Ensure we have a fresh token
-            await fbUser.getIdToken(true);
+            // Get fresh ID token
+            const idToken = await fbUser.getIdToken(true);
+            console.log('Got fresh ID token');
 
-            // Try to get user from Firestore with retries
-            let userData = await fetchWithRetry(() =>
-                getUserById(APP_CONFIG.defaultOrgId, fbUser.uid)
-            );
-            console.log('User data from Firestore:', userData);
+            let userData: User | null = null;
+            let usedRestApi = false;
 
-            // Auto-create user document if it doesn't exist in Firestore
+            // First try SDK
+            try {
+                console.log('Trying Firestore SDK...');
+                userData = await getUserById(APP_CONFIG.defaultOrgId, fbUser.uid);
+                console.log('Firestore SDK success:', userData);
+            } catch (sdkErr) {
+                const errorMessage = (sdkErr as Error).message || '';
+                console.warn('Firestore SDK failed:', errorMessage);
+
+                // If offline error, try REST API fallback
+                if (errorMessage.includes('offline') || errorMessage.includes('unavailable')) {
+                    console.log('Falling back to Firestore REST API...');
+                    try {
+                        const restData = await getDocumentViaRest(
+                            `orgs/${APP_CONFIG.defaultOrgId}/users`,
+                            fbUser.uid,
+                            idToken
+                        );
+                        if (restData) {
+                            userData = restData as unknown as User;
+                            usedRestApi = true;
+                            console.log('REST API success:', userData);
+                        }
+                    } catch (restErr) {
+                        console.error('REST API also failed:', restErr);
+                        throw restErr;
+                    }
+                } else {
+                    throw sdkErr;
+                }
+            }
+
+            // Auto-create user document if it doesn't exist
             if (!userData && fbUser.email) {
                 console.log('Creating new user document for:', fbUser.email);
+                const newUserData = {
+                    orgId: APP_CONFIG.defaultOrgId,
+                    email: fbUser.email.toLowerCase(),
+                    displayName: fbUser.displayName || fbUser.email.split('@')[0],
+                    role: 'employee',
+                    status: 'active',
+                    managedTeamIds: [],
+                    managedProjectIds: [],
+                    teamIds: [],
+                    projectIds: [],
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    createdBy: fbUser.uid,
+                };
+
                 try {
-                    userData = await fetchWithRetry(() => createUser(
+                    // Try SDK first for create
+                    userData = await createUser(
                         APP_CONFIG.defaultOrgId,
                         fbUser.uid,
                         {
                             email: fbUser.email!,
-                            displayName: fbUser.displayName || fbUser.email!.split('@')[0],
+                            displayName: newUserData.displayName,
                             role: 'employee',
                             teamIds: [],
                             projectIds: [],
                         },
                         fbUser.uid
-                    ));
-                    // Activate the user immediately
-                    await fetchWithRetry(() => updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
+                    );
+                    await updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
                         status: 'active',
                         lastLoginAt: Timestamp.now(),
-                    }));
+                    });
                     userData.status = 'active';
-                    console.log('User created successfully:', userData);
-                } catch (createErr) {
-                    console.error('Failed to create user:', createErr);
-                    throw createErr;
+                    console.log('User created via SDK:', userData);
+                } catch {
+                    // Fallback to REST API for create
+                    console.log('SDK create failed, trying REST API...');
+                    const restResult = await setDocumentViaRest(
+                        `orgs/${APP_CONFIG.defaultOrgId}/users`,
+                        fbUser.uid,
+                        newUserData,
+                        idToken
+                    );
+                    userData = restResult as unknown as User;
+                    usedRestApi = true;
+                    console.log('User created via REST API:', userData);
                 }
             }
 
@@ -105,10 +134,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     return;
                 }
 
-                // Update last login (fire and forget)
-                updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
-                    lastLoginAt: Timestamp.now(),
-                }).catch(err => console.warn('Failed to update last login:', err));
+                // Update last login (fire and forget, use REST if SDK failed before)
+                if (!usedRestApi) {
+                    updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
+                        lastLoginAt: Timestamp.now(),
+                    }).catch(err => console.warn('Failed to update last login:', err));
+                }
 
                 const appUser: AppUser = {
                     ...userData,
