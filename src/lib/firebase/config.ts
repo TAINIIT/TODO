@@ -35,13 +35,15 @@ function initializeFirebase() {
         app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
         auth = getAuth(app);
 
-        // Use memory-only cache in production to avoid IndexedDB offline issues
-        // This forces network-first behavior and prevents "client is offline" errors
+        // Use memory-only cache and force long-polling for Vercel compatibility
+        // Long-polling works better than WebSocket in serverless environments
         if (getApps().length === 1) {
             // Only initialize Firestore with settings for new apps
             try {
                 db = initializeFirestore(app, {
                     localCache: memoryLocalCache(),
+                    experimentalForceLongPolling: true,
+                    experimentalAutoDetectLongPolling: false,
                 });
             } catch {
                 // Firestore already initialized, get existing instance
