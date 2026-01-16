@@ -4,8 +4,6 @@ import {
     getFirestore,
     Firestore,
     connectFirestoreEmulator,
-    initializeFirestore,
-    memoryLocalCache,
 } from 'firebase/firestore';
 import { getStorage, FirebaseStorage, connectStorageEmulator } from 'firebase/storage';
 import { firebaseConfig } from '../constants';
@@ -35,23 +33,9 @@ function initializeFirebase() {
         app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
         auth = getAuth(app);
 
-        // Use memory-only cache and force long-polling for Vercel compatibility
-        // Long-polling works better than WebSocket in serverless environments
-        if (getApps().length === 1) {
-            // Only initialize Firestore with settings for new apps
-            try {
-                db = initializeFirestore(app, {
-                    localCache: memoryLocalCache(),
-                    experimentalForceLongPolling: true,
-                    experimentalAutoDetectLongPolling: false,
-                });
-            } catch {
-                // Firestore already initialized, get existing instance
-                db = getFirestore(app);
-            }
-        } else {
-            db = getFirestore(app);
-        }
+        // Use the simplest Firestore initialization
+        // Remove custom settings to test if plain config works on Vercel
+        db = getFirestore(app);
 
         storage = getStorage(app);
         initialized = true;
