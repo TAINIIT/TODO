@@ -27,33 +27,67 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const loadUserData = useCallback(async (fbUser: FirebaseUser) => {
         console.log('Loading user data for:', fbUser.email);
-        
+
+        // Retry function with exponential backoff
+        const fetchWithRetry = async <T,>(
+            operation: () => Promise<T>,
+            maxRetries = 3,
+            delayMs = 1000
+        ): Promise<T> => {
+            let lastError: Error | null = null;
+            for (let attempt = 0; attempt < maxRetries; attempt++) {
+                try {
+                    return await operation();
+                } catch (err) {
+                    lastError = err as Error;
+                    const errorMessage = lastError.message || '';
+                    // Only retry on offline/unavailable errors
+                    if (errorMessage.includes('offline') || errorMessage.includes('unavailable')) {
+                        console.log(`Retry attempt ${attempt + 1}/${maxRetries} after ${delayMs}ms...`);
+                        await new Promise(resolve => setTimeout(resolve, delayMs));
+                        delayMs *= 2; // Exponential backoff
+                    } else {
+                        throw lastError;
+                    }
+                }
+            }
+            throw lastError;
+        };
+
         try {
-            // Try to get user from Firestore
-            let userData = await getUserById(APP_CONFIG.defaultOrgId, fbUser.uid);
+            // Wait a bit for auth token to propagate to Firestore
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Ensure we have a fresh token
+            await fbUser.getIdToken(true);
+
+            // Try to get user from Firestore with retries
+            let userData = await fetchWithRetry(() =>
+                getUserById(APP_CONFIG.defaultOrgId, fbUser.uid)
+            );
             console.log('User data from Firestore:', userData);
 
             // Auto-create user document if it doesn't exist in Firestore
             if (!userData && fbUser.email) {
                 console.log('Creating new user document for:', fbUser.email);
                 try {
-                    userData = await createUser(
+                    userData = await fetchWithRetry(() => createUser(
                         APP_CONFIG.defaultOrgId,
                         fbUser.uid,
                         {
-                            email: fbUser.email,
-                            displayName: fbUser.displayName || fbUser.email.split('@')[0],
+                            email: fbUser.email!,
+                            displayName: fbUser.displayName || fbUser.email!.split('@')[0],
                             role: 'employee',
                             teamIds: [],
                             projectIds: [],
                         },
                         fbUser.uid
-                    );
+                    ));
                     // Activate the user immediately
-                    await updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
+                    await fetchWithRetry(() => updateUser(APP_CONFIG.defaultOrgId, fbUser.uid, {
                         status: 'active',
                         lastLoginAt: Timestamp.now(),
-                    });
+                    }));
                     userData.status = 'active';
                     console.log('User created successfully:', userData);
                 } catch (createErr) {
@@ -85,7 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                         photoURL: fbUser.photoURL,
                     },
                 };
-                
+
                 console.log('Setting user:', appUser);
                 setUser(appUser);
                 setError(null);
@@ -96,7 +130,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } catch (err) {
             console.error('Error loading user data:', err);
             const errorMessage = (err as Error).message || '';
-            
+
             if (errorMessage.includes('offline') || errorMessage.includes('unavailable')) {
                 setError('Unable to connect to server. Please check your internet connection and try again.');
             } else if (errorMessage.includes('permission')) {
@@ -110,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         console.log('Setting up auth listener...');
-        
+
         const unsubscribe = onAuthChange(async (fbUser) => {
             console.log('Auth state changed:', fbUser?.email || 'No user');
             setFirebaseUser(fbUser);
