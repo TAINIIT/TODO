@@ -127,7 +127,7 @@ export default function LoginPage() {
                 </Card>
 
                 <p className="mt-6 text-center text-xs text-gray-400 dark:text-gray-500">
-                    Only @tsb.com.vn email addresses are allowed
+                    Allowed domains: @tsb.com.vn, @company.com, @gmail.com
                 </p>
             </div>
         </div>
